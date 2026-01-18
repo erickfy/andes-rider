@@ -4,6 +4,7 @@ import com.erickfy.andesrider.dto.products.ProductRequest;
 import com.erickfy.andesrider.dto.products.ProductResponse;
 import com.erickfy.andesrider.mapper.ProductMapper;
 import com.erickfy.andesrider.models.ProductEntity;
+import com.erickfy.andesrider.repo.CategoryRepository;
 import com.erickfy.andesrider.repo.ProductRepository;
 
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
 
 
@@ -42,11 +44,15 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponse create(@Valid @RequestBody ProductRequest request) {
-        // Convertimos el DTO a Entidad
         ProductEntity entity = productMapper.toEntity(request);
-        // Guardamos
+        
+        // Buscamos la categoría completa para que el Response tenga el nombre
+        if (request.getCategoryId() != null) {
+            entity.setCategory(categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoría no encontrada")));
+        }
+        
         ProductEntity saved = productRepository.save(entity);
-        // Devolvemos el DTO de respuesta
         return productMapper.toResponse(saved);
     }
 
@@ -55,6 +61,13 @@ public class ProductController {
         return productRepository.findById(id)
                 .map(existing -> {
                     productMapper.updateEntityFromRequest(request, existing);
+                    
+                    // Asegurar que la categoría esté bien cargada
+                    if (request.getCategoryId() != null) {
+                        existing.setCategory(categoryRepository.findById(request.getCategoryId())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoría no encontrada")));
+                    }
+                    
                     return productRepository.save(existing);
                 })
                 .map(productMapper::toResponse)

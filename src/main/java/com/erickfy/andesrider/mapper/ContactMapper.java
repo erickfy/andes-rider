@@ -3,16 +3,33 @@ package com.erickfy.andesrider.mapper;
 import com.erickfy.andesrider.dto.contacts.ContactRequest;
 import com.erickfy.andesrider.dto.contacts.ContactResponse;
 import com.erickfy.andesrider.models.ContactEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
+@Component
+public class ContactMapper {
 
-@Mapper(componentModel = "spring")
-public interface ContactMapper {
+    public ContactResponse toResponse(ContactEntity entity) {
+        if (entity == null) return null;
+        
+        ContactResponse response = new ContactResponse();
+        response.setId(entity.getId());
+        response.setName(entity.getName());
+        response.setEmail(entity.getEmail());
+        response.setReason(entity.getReason());
+        response.setMessage(entity.getMessage());
+        response.setCreatedAt(entity.getCreatedAt());
+        return response;
+    }
 
-    ContactResponse toResponse(ContactEntity entity);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    ContactEntity toEntity(ContactRequest request);
+    public ContactEntity toEntity(ContactRequest request) {
+        if (request == null) return null;
+        
+        ContactEntity entity = new ContactEntity();
+        entity.setName(request.getName());
+        entity.setEmail(request.getEmail());
+        entity.setPhone(request.getPhone());
+        entity.setReason(request.getReason());
+        entity.setMessage(request.getMessage());
+        return entity;
+    }
 }

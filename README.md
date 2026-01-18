@@ -115,7 +115,139 @@ Navega a la carpeta `/landing` y abre `index.html` en tu navegador.
 | `GET`    | `/api/contacts`      | Lista todos los mensajes de contacto.           |
 | `POST`   | `/api/contacts`      | Envía un nuevo formulario de contacto.          |
 
----
+## 📊 Diagrama ER
+
+```mermaid
+
+erDiagram
+  %% ============================================================
+  %% MODELO EXTENDIDO (TO-BE / PROPUESTA DE MIGRACIÓN)
+  %% IMPORTANTE:
+  %% - Mantiene intactas tus tablas reales: categories/products/contacts
+  %% - Agrega entidades FUTURAS para justificar escalabilidad
+  %%   (no implementadas en esta entrega, pero coherentes con el dominio)
+  %% ============================================================
+
+  %% --- EXISTENTES (IMPLEMENTADAS) ---
+  CATEGORIES ||--o{ PRODUCTS : "1 a 0..N"
+
+  CATEGORIES {
+    BIGINT id PK "IDENTITY"
+    VARCHAR name "NOT NULL, UNIQUE"
+    VARCHAR description "NULL"
+  }
+
+  PRODUCTS {
+    BIGINT id PK "IDENTITY"
+    VARCHAR name "NOT NULL (3..120)"
+    BIGINT category_id FK "NOT NULL"
+    VARCHAR status "NOT NULL"
+    DOUBLE price ">= 0"
+    INT stock ">= 0"
+    VARCHAR desc "NOT NULL, len<=1000"
+  }
+
+  CONTACTS {
+    BIGINT id PK "IDENTITY"
+    VARCHAR name
+    VARCHAR email
+    VARCHAR phone
+    VARCHAR reason
+    VARCHAR message "len<=1000"
+    DATETIME created_at "AUTO"
+  }
+
+  %% --- PROPUESTAS (FUTURAS) ---
+  USERS ||--o{ ORDERS : "1 usuario genera 0..N pedidos"
+  ORDERS ||--|{ ORDER_ITEMS : "1 pedido tiene 1..N items"
+  PRODUCTS ||--o{ ORDER_ITEMS : "1 producto puede estar en 0..N items"
+
+  PRODUCTS ||--o{ PRODUCT_IMAGES : "1 producto tiene 0..N imágenes"
+  PRODUCTS ||--o{ INVENTORY_MOVEMENTS : "1 producto registra 0..N movimientos"
+  USERS ||--o{ INVENTORY_MOVEMENTS : "1 usuario registra 0..N movimientos"
+
+  USERS ||--o{ SERVICE_APPOINTMENTS : "1 usuario agenda 0..N citas"
+  PRODUCTS ||--o{ SERVICE_APPOINTMENT_ITEMS : "servicios/repuestos usados"
+  SERVICE_APPOINTMENTS ||--o{ SERVICE_APPOINTMENT_ITEMS : "1 cita 0..N items"
+
+  USERS ||--o{ AUDIT_LOG : "1 usuario genera 0..N eventos"
+  PRODUCTS ||--o{ AUDIT_LOG : "eventos sobre productos"
+  CATEGORIES ||--o{ AUDIT_LOG : "eventos sobre categorías"
+
+  %% ==========================
+  %% DEFINICIÓN DE PROPUESTAS
+  %% ==========================
+  USERS {
+    BIGINT id PK
+    VARCHAR full_name "NOT NULL"
+    VARCHAR email "NOT NULL, UNIQUE"
+    VARCHAR password_hash "NOT NULL"
+    VARCHAR role "ADMIN/CLIENT"
+    DATETIME created_at
+    DATETIME updated_at
+  }
+
+  ORDERS {
+    BIGINT id PK
+    BIGINT user_id FK "-> users.id"
+    VARCHAR status "PENDING/PAID/CANCELLED"
+    DOUBLE total ">= 0"
+    DATETIME created_at
+  }
+
+  ORDER_ITEMS {
+    BIGINT id PK
+    BIGINT order_id FK "-> orders.id"
+    BIGINT product_id FK "-> products.id"
+    INT quantity ">= 1"
+    DOUBLE unit_price ">= 0"
+    DOUBLE subtotal ">= 0"
+  }
+
+  PRODUCT_IMAGES {
+    BIGINT id PK
+    BIGINT product_id FK "-> products.id"
+    VARCHAR url "NOT NULL"
+    BOOLEAN is_primary
+  }
+
+  INVENTORY_MOVEMENTS {
+    BIGINT id PK
+    BIGINT product_id FK "-> products.id"
+    BIGINT user_id FK "-> users.id"
+    VARCHAR type "IN/OUT/ADJUST"
+    INT quantity ">= 1"
+    VARCHAR reason "Compra/Venta/Ajuste"
+    DATETIME created_at
+  }
+
+  SERVICE_APPOINTMENTS {
+    BIGINT id PK
+    BIGINT user_id FK "-> users.id"
+    VARCHAR status "REQUESTED/CONFIRMED/DONE"
+    DATETIME scheduled_for
+    VARCHAR notes
+    DATETIME created_at
+  }
+
+  SERVICE_APPOINTMENT_ITEMS {
+    BIGINT id PK
+    BIGINT appointment_id FK "-> service_appointments.id"
+    BIGINT product_id FK "-> products.id"
+    INT quantity ">= 1"
+    DOUBLE price ">= 0"
+  }
+
+  AUDIT_LOG {
+    BIGINT id PK
+    BIGINT user_id FK "-> users.id"
+    VARCHAR entity "products/categories/orders"
+    BIGINT entity_id
+    VARCHAR action "CREATE/UPDATE/DELETE"
+    VARCHAR detail
+    DATETIME created_at
+  }
+```
 
 ## 📄 Licencia
 

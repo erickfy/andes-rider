@@ -31,8 +31,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- JPA (Hibernate) - NECESARIO PARA SQLITE -->
-		<!-- Eliminamos data-jdbc para evitar el conflicto "BeanDefinitionOverrideException" -->
+		<!-- JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -44,16 +43,10 @@
 			<artifactId>hibernate-community-dialects</artifactId>
 		</dependency>
 
-		<!-- Validación (@Valid) -->
+		<!-- Validación -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>1.6.3</version>
 		</dependency>
 
 		<!-- SQLite -->
@@ -105,22 +98,7 @@
 							<artifactId>lombok</artifactId>
 							<version>${lombok.version}</version>
 						</path>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok-mapstruct-binding</artifactId>
-							<version>0.2.0</version>
-						</path>
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>1.6.3</version>
-						</path>
 					</annotationProcessorPaths>
-					<compilerArgs>
-						<arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
-						<arg>-Amapstruct.suppressGeneratorVersionInfoComment=true</arg>
-						<arg>-Amapstruct.defaultComponentModel=spring</arg>
-					</compilerArgs>
 				</configuration>
 			</plugin>
 
