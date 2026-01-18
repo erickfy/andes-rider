@@ -7,22 +7,23 @@ import com.erickfy.andesrider.models.ProductEntity;
 import com.erickfy.andesrider.repo.ProductRepository;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/products")
 @CrossOrigin(origins = "*")
-@RequiredArgsConstructor // Inyección automática
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+
 
     @GetMapping
     public List<ProductResponse> getAll() {

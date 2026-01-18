@@ -6,6 +6,7 @@ import com.erickfy.andesrider.models.ContactEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+
 @Mapper(componentModel = "spring")
 public interface ContactMapper {
 
