@@ -15,7 +15,7 @@
 
 <body>
 
-    <div id="top" aria-hidden="true"></div>
+    <div id="top-scroll" aria-hidden="true"></div>
   <!-- Skip link accesibilidad -->
   <a class="skip-link" href="#home">Saltar al contenido</a>
 
@@ -24,29 +24,14 @@
       <!-- Logo + marca -->
       <a class="brand" href="#home" aria-label="Ir a inicio AndesRider Motors">
         <span class="brand-mark" aria-hidden="true">
-          <!-- Logo SVG (editable) -->
+          <!-- Logo IMG -->
           <img src="./img/logo.png" alt="Logo AndesRider Motors" width="42" height="42" style="border-radius: 50%;">
-          <!-- <svg width="42" height="42" viewBox="0 0 64 64" role="img" aria-label="Logo AndesRider">
-            <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#111827"/>
-                <stop offset="1" stop-color="#6d28d9"/>
-              </linearGradient>
-            </defs>
-            <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#g)"></rect>
-            <path d="M18 40c7-14 20-22 28-16 6 5 4 16-5 22-8 6-18 2-23-6z" fill="#fff" opacity="0.9"/>
-            <path d="M22 36c6-8 13-12 18-10 3 1 4 6 1 10-4 5-12 6-19 0z" fill="#111827" opacity="0.95"/>
-            <circle cx="22" cy="44" r="4" fill="#fff"/>
-            <circle cx="44" cy="44" r="4" fill="#fff"/>
-          </svg> -->
         </span>
         <span class="brand-text">
           <strong>ANDESRIDER</strong>
           <small>MOTORS</small>
         </span>
       </a>
-
-
 
       <!-- Botón menú móvil -->
       <button class="nav-toggle" id="navToggle" aria-controls="primaryNav" aria-expanded="false">
@@ -55,9 +40,6 @@
           <span class="nav-toggle-bar" aria-hidden="true"></span>
           <span class="sr-only">Abrir menú</span>
         </button>
-        
-
-
 
       <!-- Navegación -->
       <nav class="site-nav" id="primaryNav" aria-label="Navegación principal">
@@ -70,7 +52,7 @@
         <a class="nav-link" href="#noticias">Noticias</a>
       </nav>
 
-                    <!-- Botón tema (claro/oscuro) -->
+      <!-- Botón tema (claro/oscuro) -->
       <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Cambiar tema">
         <span class="theme-toggle-icon" aria-hidden="true">☀</span>
         <span class="theme-toggle-text">Tema</span>
@@ -79,10 +61,9 @@
   </header>
 
   <main>
-    <!-- HOME (imagen grande + eslogan) -->
+    <!-- HOME -->
     <section class="hero" id="home" aria-label="Sección principal">
       <div class="hero-overlay"></div>
-
       <div class="container hero-content">
         <p class="hero-kicker">Motos urbanas | Doble propósito | Taller y repuestos</p>
         <h1>Potencia para tu ruta diaria.</h1>
@@ -90,13 +71,11 @@
           AndesRider Motors combina motos confiables, mantenimiento profesional y repuestos con garantía.
           Ideal para ciudad, trabajo y aventura de fin de semana.
         </p>
-
         <div class="hero-actions">
           <a class="btn btn-primary" href="#productos">Ver catálogo</a>
           <a class="btn btn-ghost" href="#contacto">Agendar mantenimiento</a>
         </div>
-
-        <div class="hero-badges" aria-label="Beneficios">
+          <div class="hero-badges" aria-label="Beneficios">
           <div class="badge">
             <strong>12 meses</strong>
             <span>garantía seleccionada</span>
@@ -177,15 +156,14 @@
           <h2>Productos</h2>
           <p>
             Catálogo de referencia. Puedes <strong>agregar, editar y eliminar</strong> productos.
-            La información se guarda en tu navegador (localStorage).
           </p>
         </div>
 
         <div class="toolbar" role="region" aria-label="Herramientas de catálogo">
           <div class="toolbar-left">
             <button class="btn btn-primary" id="btnAddProduct">Agregar producto</button>
-            <button class="btn btn-ghost" id="btnResetDemo" title="Restaura el catálogo de ejemplo">
-              Restaurar demo
+            <button class="btn btn-ghost" id="btnReload" title="Recargar datos del servidor">
+              Recargar
             </button>
           </div>
 
@@ -202,7 +180,6 @@
                 <option value="name-desc">Nombre (Z–A)</option>
                 <option value="price-asc">Precio (menor a mayor)</option>
                 <option value="price-desc">Precio (mayor a menor)</option>
-                <option value="stock-desc">Stock (mayor a menor)</option>
               </select>
             </label>
           </div>
@@ -225,7 +202,6 @@
             </tbody>
           </table>
         </div>
-
         <p class="muted" id="productsMeta"></p>
       </div>
     </section>
@@ -313,7 +289,7 @@
       <div class="container">
         <div class="section-head">
           <h2>Contacto</h2>
-          <p>Envíanos tus datos y te respondemos con una cotización o una cita de taller.</p>
+          <p>Envíanos tus datos. Se guardarán en la base de datos de AndesRider.</p>
         </div>
 
         <div class="grid-2">
@@ -394,22 +370,14 @@
       </div>
     </section>
 
-    <!-- NOTICIAS -->
+    <!-- NOTICIAS (Mantener igual) -->
     <section class="section section-alt" id="noticias">
-      <div class="container">
-        <div class="section-head">
-          <h2>Noticias</h2>
-          <p>Publicaciones del portal (render dinámico con JavaScript + DOM).</p>
+        <div class="container">
+            <div class="news-grid" id="newsGrid"></div>
+            <div class="center">
+                <button class="btn btn-ghost" id="btnLoadMore">Cargar más</button>
+            </div>
         </div>
-
-        <div class="news-grid" id="newsGrid" aria-label="Listado de noticias">
-          <!-- JS render -->
-        </div>
-
-        <div class="center">
-          <button class="btn btn-ghost" id="btnLoadMore">Cargar más</button>
-        </div>
-      </div>
     </section>
   </main>
 
@@ -424,19 +392,19 @@
       </div>
 
       <div class="footer-right">
-        <a href="#top" class="back-top">↑ Volver arriba</a>
+        <a href="#top-scroll" class="back-top">↑ Volver arriba</a>
         <small class="muted">© <span id="year"></span> AndesRider Motors. Proyecto académico.</small>
       </div>
     </div>
   </footer>
 
   <!-- Modal (Crear/Editar producto) -->
-  <div class="modal" id="productModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" id="productModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-backdrop" data-close="true"></div>
     <div class="modal-card" role="document">
       <div class="modal-head">
         <h3 id="modalTitle">Producto</h3>
-        <button class="icon-btn" id="btnCloseModal" aria-label="Cerrar modal">×</button>
+        <button class="icon-btn" id="btnCloseModal">×</button>
       </div>
 
       <form id="productForm" class="form" novalidate>
@@ -444,18 +412,19 @@
 
         <label class="field">
           <span class="field-label">Nombre</span>
-          <input type="text" id="pName" required minlength="3" placeholder="Ej: Urban 150" />
+          <input type="text" id="pName" required minlength="3" />
         </label>
 
         <div class="form-row">
           <label class="field">
             <span class="field-label">Categoría</span>
+            <!-- CAMBIO IMPORTANTE: Values son IDs numéricos del Backend -->
             <select id="pCategory" required>
               <option value="" selected disabled>Selecciona…</option>
-              <option value="Moto">Moto</option>
-              <option value="Accesorio">Accesorio</option>
-              <option value="Repuesto">Repuesto</option>
-              <option value="Servicio">Servicio</option>
+              <option value="1">Moto</option>
+              <option value="2">Accesorio</option>
+              <option value="3">Repuesto</option>
+              <option value="4">Servicio</option>
             </select>
           </label>
 
@@ -472,35 +441,33 @@
         <div class="form-row">
           <label class="field">
             <span class="field-label">Precio (USD)</span>
-            <input type="number" id="pPrice" required min="0" step="0.01" placeholder="Ej: 1589" />
+            <input type="number" id="pPrice" required min="0" step="0.01" />
           </label>
-
           <label class="field">
             <span class="field-label">Stock</span>
-            <input type="number" id="pStock" required min="0" step="1" placeholder="Ej: 5" />
+            <input type="number" id="pStock" required min="0" step="1" />
           </label>
         </div>
 
         <label class="field">
           <span class="field-label">Descripción corta</span>
-          <textarea id="pDesc" rows="3" required minlength="10" placeholder="Descripción del producto..."></textarea>
+          <textarea id="pDesc" rows="3" required minlength="10"></textarea>
         </label>
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary" id="btnSaveProduct">Guardar</button>
           <button type="button" class="btn btn-ghost" id="btnCancelModal">Cancelar</button>
         </div>
-
-        <div class="alert" id="productAlert" role="status" aria-live="polite" hidden></div>
+        <div class="alert" id="productAlert" hidden></div>
       </form>
     </div>
   </div>
 
   <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-  <script src="index.js"></script>
+  <!-- Scripts del Proyecto -->
+  <script src="crud.js"></script> <!-- PRIMERO: La API -->
+  <script src="index.js"></script> <!-- SEGUNDO: La Lógica UI -->
 </body>
 </html>
